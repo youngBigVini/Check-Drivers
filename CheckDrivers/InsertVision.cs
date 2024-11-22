@@ -16,5 +16,32 @@ namespace CheckDrivers
         {
             InitializeComponent();
         }
+
+        private void tableVisionBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.tableVisionBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.dataCDDataSet);
+
+        }
+
+        private void InsertVision_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'dataCDDataSet.TableVision' table. You can move, or remove it, as needed.
+            this.tableVisionTableAdapter.Fill(this.dataCDDataSet.TableVision);
+
+        }
+
+        private void buttonBackVision_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            initial initial = new initial();
+            initial.Show();
+        }
+
+        private void InsertVision_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

@@ -37,6 +37,7 @@ namespace CheckDrivers
             this.Hide();
             initial initial = new initial();
             initial.Show();
+            
         }
     }
 }

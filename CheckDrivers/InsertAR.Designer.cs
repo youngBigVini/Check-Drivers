@@ -29,25 +29,25 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InsertAR));
             System.Windows.Forms.Label driver_NameLabel;
             System.Windows.Forms.Label driver_VersionLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InsertAR));
             this.dataCDDataSet = new CheckDrivers.dataCDDataSet();
             this.table_ARBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.table_ARTableAdapter = new CheckDrivers.dataCDDataSetTableAdapters.Table_ARTableAdapter();
             this.tableAdapterManager = new CheckDrivers.dataCDDataSetTableAdapters.TableAdapterManager();
             this.table_ARBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.table_ARBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.table_ARDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,6 +64,24 @@
             this.table_ARBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.table_ARDataGridView)).BeginInit();
             this.SuspendLayout();
+            // 
+            // driver_NameLabel
+            // 
+            driver_NameLabel.AutoSize = true;
+            driver_NameLabel.Location = new System.Drawing.Point(12, 51);
+            driver_NameLabel.Name = "driver_NameLabel";
+            driver_NameLabel.Size = new System.Drawing.Size(69, 13);
+            driver_NameLabel.TabIndex = 2;
+            driver_NameLabel.Text = "Driver Name:";
+            // 
+            // driver_VersionLabel
+            // 
+            driver_VersionLabel.AutoSize = true;
+            driver_VersionLabel.Location = new System.Drawing.Point(12, 76);
+            driver_VersionLabel.Name = "driver_VersionLabel";
+            driver_VersionLabel.Size = new System.Drawing.Size(76, 13);
+            driver_VersionLabel.TabIndex = 4;
+            driver_VersionLabel.Text = "Driver Version:";
             // 
             // dataCDDataSet
             // 
@@ -117,6 +135,31 @@
             this.table_ARBindingNavigator.TabIndex = 0;
             this.table_ARBindingNavigator.Text = "bindingNavigator1";
             // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
+            // 
             // bindingNavigatorMoveFirstItem
             // 
             this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -149,16 +192,9 @@
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorMoveNextItem
@@ -181,26 +217,8 @@
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // table_ARBindingNavigatorSaveItem
             // 
@@ -222,7 +240,7 @@
             this.table_ARDataGridView.DataSource = this.table_ARBindingSource;
             this.table_ARDataGridView.Location = new System.Drawing.Point(0, 221);
             this.table_ARDataGridView.Name = "table_ARDataGridView";
-            this.table_ARDataGridView.Size = new System.Drawing.Size(392, 219);
+            this.table_ARDataGridView.Size = new System.Drawing.Size(532, 357);
             this.table_ARDataGridView.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
@@ -244,15 +262,6 @@
             this.dataGridViewTextBoxColumn3.HeaderText = "Driver Version";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
-            // driver_NameLabel
-            // 
-            driver_NameLabel.AutoSize = true;
-            driver_NameLabel.Location = new System.Drawing.Point(12, 51);
-            driver_NameLabel.Name = "driver_NameLabel";
-            driver_NameLabel.Size = new System.Drawing.Size(69, 13);
-            driver_NameLabel.TabIndex = 2;
-            driver_NameLabel.Text = "Driver Name:";
-            // 
             // driver_NameTextBox
             // 
             this.driver_NameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.table_ARBindingSource, "Driver Name", true));
@@ -260,15 +269,6 @@
             this.driver_NameTextBox.Name = "driver_NameTextBox";
             this.driver_NameTextBox.Size = new System.Drawing.Size(100, 20);
             this.driver_NameTextBox.TabIndex = 3;
-            // 
-            // driver_VersionLabel
-            // 
-            driver_VersionLabel.AutoSize = true;
-            driver_VersionLabel.Location = new System.Drawing.Point(12, 76);
-            driver_VersionLabel.Name = "driver_VersionLabel";
-            driver_VersionLabel.Size = new System.Drawing.Size(76, 13);
-            driver_VersionLabel.TabIndex = 4;
-            driver_VersionLabel.Text = "Driver Version:";
             // 
             // driver_VersionTextBox
             // 
@@ -280,7 +280,7 @@
             // 
             // buttonBackAr
             // 
-            this.buttonBackAr.Location = new System.Drawing.Point(15, 512);
+            this.buttonBackAr.Location = new System.Drawing.Point(15, 584);
             this.buttonBackAr.Name = "buttonBackAr";
             this.buttonBackAr.Size = new System.Drawing.Size(75, 23);
             this.buttonBackAr.TabIndex = 6;

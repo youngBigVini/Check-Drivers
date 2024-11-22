@@ -35,6 +35,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +53,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dataCDDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="dBInsert.cs" />
     <Compile Include="InsertAR.cs">
       <SubType>Form</SubType>
     </Compile>
