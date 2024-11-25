@@ -327,6 +327,7 @@ namespace CheckDrivers
         public void checkDrivers(Dictionary<string, string> Drivers)
         {
             msgDriversOk.Clear();
+            msgDriversNok.Clear();
             try
             {
                 // Cria um objeto para buscar informações sobre os drivers
@@ -357,12 +358,17 @@ namespace CheckDrivers
                 // Exibir mensagens
                 if (msgDriversOk.Count > 0)
                 {
-                    MessageBox.Show(string.Join(Environment.NewLine, msgDriversOk), "Drivers OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(string.Join(Environment.NewLine, msgDriversOk), "Driver OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 if (msgDriversNok.Count > 0)
                 {
-                    MessageBox.Show(string.Join(Environment.NewLine, msgDriversNok), "Drivers Not OK", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Join(Environment.NewLine, msgDriversNok), "Driver Not OK", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                if ((msgDriversOk.Count == 0) && (msgDriversNok.Count == 0))
+                {
+                    MessageBox.Show("Driver not found!", "Check Drivers", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
