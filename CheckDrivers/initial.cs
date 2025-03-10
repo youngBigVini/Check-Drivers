@@ -3,33 +3,35 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Management;
 using System.IO;
-using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
+
 
 namespace CheckDrivers
 {
     public partial class initial : Form
     {
+   
         public void config()
         {
-            // Obtendo o diretório atual da aplicação
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string newDirectoryName = "ConfigFiles";
-            string newDirectoryPath = Path.Combine(currentDirectory, newDirectoryName);
+                        
+            
+            string newDirectoryPath = @"C:\Check Drivers";
 
             if (!Directory.Exists(newDirectoryPath))
             {
-                // Criando o novo diretório
+                
                 Directory.CreateDirectory(newDirectoryPath);
             }
 
-            string filePath = Path.Combine(newDirectoryPath, "config.cfg");
+            string filePath = @"C:\Check Drivers\config.cfg";
             if (!File.Exists(filePath))
             {
                 string[] configLines = {
                     "[DRIVERS IMAGES DIRECTORY]",
-                    "; driver name  = directory"
+                    "; driver name  = directory",
+                    "",
+                    "[DRIVERS AND VERSIONS]",
+                    "; driver name = driver version"
                 };
                 File.WriteAllLines(filePath, configLines);
             }
@@ -38,206 +40,54 @@ namespace CheckDrivers
         private List<string> msgDriversNok = new List<string>();
         public initial()
         {
-            InitializeComponent();
-            buttonOkAr.Visible = false;
-            buttonOkVision.Visible = false;
+            InitializeComponent();           
             buttonOkBoard.Visible = false;
             consultDataBase();
             config();
         }
 
-        private void buttonInsertDriverAr_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            
-            InsertAR insertAR = new InsertAR();
-            insertAR.Show();
-            
-            
-
-        }
-
-        private void buttonOkAr_Click(object sender, EventArgs e)
-        {
-            pictureBoxAr.Image = null;
-            buttonOkAr.Visible = false;
-        }
-
-        public void InitializeDriverCheck()
-        {
-            // Obtendo o diretório atual da aplicação
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string newDirectoryName = "ConfigFiles";
-            string newDirectoryPath = Path.Combine(currentDirectory, newDirectoryName);
-
-            if (!Directory.Exists(newDirectoryPath))
-            {
-                // Criando o novo diretório
-                Directory.CreateDirectory(newDirectoryPath);
-            }
-
-            string filePath = Path.Combine(newDirectoryPath, "config.cfg");
-            if (!File.Exists(filePath))
-            {
-                string[] configLines = {
-                    "[DRIVERS IMAGES DIRECTORY]",
-                    "; driver name  = directory"
-                };
-                File.WriteAllLines(filePath, configLines);
-            }
-
-            Dictionary<string, string> Drivers = ReadDriversFromCfg(filePath);
-
-            try
-            {
-                // Cria um objeto para buscar informações sobre os drivers
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPSignedDriver");
-
-                // Executa a busca e itera sobre os resultados
-                foreach (ManagementObject driver in searcher.Get())
-                {
-                    //Console.WriteLine("Driver: " + driver["Description"]+", Version:" + driver["DriverVersion"]);
-                    if (driver["Description"] != null && driver["DriverVersion"] != null)
-                    {
-                        foreach (var Cdriver in Drivers)
-                        {
-                            if (driver["Description"].ToString() == Cdriver.Key)
-                            {
-                                if (driver["DriverVersion"].ToString() == Cdriver.Value)
-                                {
-                                    msgDriversOk.Add($"Driver: {Cdriver.Key}, Version: {Cdriver.Value}, OK.");
-                                }
-                                else
-                                {
-                                    msgDriversNok.Add($"Driver: {Cdriver.Key}, Version: {driver["DriverVersion"].ToString()}, not OK. Please change the driver version to the correct version.");
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Exibir mensagens
-                if (msgDriversOk.Count > 0)
-                {
-                    MessageBox.Show(string.Join(Environment.NewLine, msgDriversOk), "Drivers OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                if (msgDriversNok.Count > 0)
-                {
-                    MessageBox.Show(string.Join(Environment.NewLine, msgDriversNok), "Drivers Not OK", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ocorreu um erro: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
+        
         private Dictionary<string, string> ReadDriversFromCfg(string filePath)
         {
             var drivers = new Dictionary<string, string>();
 
             if (File.Exists(filePath))
             {
+                bool isInDriversSection = false;
                 var lines = File.ReadAllLines(filePath);
                 foreach (var line in lines)
                 {
-                    if (line.Contains("="))
+                    if (line.Trim() == "[DRIVERS IMAGES DIRECTORY]")
                     {
-                        var parts = line.Split(new[] { '=' }, 2);
-                        if (parts.Length == 2)
+                        isInDriversSection = true;
+                        continue;
+                    }
+                    if (isInDriversSection)
+                    {
+                        if (line.StartsWith("["))
                         {
-                            var driverName = parts[0].Trim();
-                            var driverImageDirectory = parts[1].Trim();
-                            drivers[driverName] = driverImageDirectory;
+                            break;
+                        }
+                        if (line.Contains("="))
+                        {
+                            var parts = line.Split(new[] { '=' }, 2);
+                            if (parts.Length == 2)
+                            {
+                                var driverName = parts[0].Trim();
+                                var driverImageDirectory = parts[1].Trim();
+                                drivers[driverName] = driverImageDirectory;
+                            }
                         }
                     }
+                    
                 }
             }
 
             return drivers;
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedItem = comboBoxAr.SelectedItem.ToString();
-            string[] parts = selectedItem.Split(new[] { ", " }, StringSplitOptions.None);
-            string driver = parts[0].Split(':')[1].Trim();
-            string version = parts[1].Split(':')[1].Trim();
-            Console.WriteLine(driver+" "+ version);
-            Dictionary<string, string> drivers = new Dictionary<string, string>();
-            drivers[driver] = version;
-            
 
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string newDirectoryName = "ConfigFiles";
-            string newDirectoryPath = Path.Combine(currentDirectory, newDirectoryName);
-            string filePath = Path.Combine(newDirectoryPath, "config.cfg");
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    string[] lines = File.ReadAllLines(filePath);
-                    foreach (string line in lines)
-                    {
-                        if (line.Contains(driver))
-                        {
-                            string dir = line.Split('=')[1].Trim();
-                            Console.WriteLine(dir);
-                            pictureBoxAr.SizeMode = PictureBoxSizeMode.Zoom;
-                            pictureBoxAr.Image = Image.FromFile(dir);
-                            buttonOkAr.Visible = true;
-                        }
-                    }
-                }
-                catch
-                {
 
-                }
-            }
-            checkDrivers(drivers);
-            drivers.Clear();
-        }
-
-        private void comboBoxVision_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedItem = comboBoxVision.SelectedItem.ToString();
-            string[] parts = selectedItem.Split(new[] { ", " }, StringSplitOptions.None);
-            string driver = parts[0].Split(':')[1].Trim();
-            string version = parts[1].Split(':')[1].Trim();
-            Dictionary<string, string> drivers = new Dictionary<string, string>();
-            drivers[driver] = version;
-            
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string newDirectoryName = "ConfigFiles";
-            string newDirectoryPath = Path.Combine(currentDirectory, newDirectoryName);
-            string filePath = Path.Combine(newDirectoryPath, "config.cfg");
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    string[] lines = File.ReadAllLines(filePath);
-                    foreach (string line in lines)
-                    {
-                        if (line.Contains(driver))
-                        {
-                            string dir = line.Split('=')[1].Trim();
-                            Console.WriteLine(dir);
-                            pictureBoxVision.SizeMode = PictureBoxSizeMode.Zoom;
-                            pictureBoxVision.Image = Image.FromFile(dir);
-                            buttonOkVision.Visible = true;
-                        }
-                    }
-                }
-                catch
-                {
-
-                }
-            }
-            checkDrivers(drivers);
-            drivers.Clear();
-        }
 
         private void comboBoxBoard_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -248,81 +98,136 @@ namespace CheckDrivers
             Dictionary<string, string> drivers = new Dictionary<string, string>();
             drivers[driver] = version;
 
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string newDirectoryName = "ConfigFiles";
-            string newDirectoryPath = Path.Combine(currentDirectory, newDirectoryName);
-            string filePath = Path.Combine(newDirectoryPath, "config.cfg");
+            
+            string filePath = @"C:\Check Drivers\config.cfg";
             if (File.Exists(filePath))
             {
                 try
                 {
-                    string[] lines = File.ReadAllLines(filePath);
-                    foreach (string line in lines)
-                    {
-                        if (line.Contains(driver))
-                        {
-                            string dir = line.Split('=')[1].Trim();
-                            Console.WriteLine(dir);
-                            pictureBoxBoard.SizeMode = PictureBoxSizeMode.Zoom;
-                            pictureBoxBoard.Image = Image.FromFile(dir);
-                            buttonOkBoard.Visible = true;
-                        }
-                    }
-                }
-                catch
-                {
+                    string selectedDriver = driver;
+                    
+                    var driversImages = ExtractDriversImages(filePath);
 
+                    
+                   
+                    foreach (var entry in driversImages)
+                    {
+                        Console.WriteLine($"Driver: {entry.Key}, Diretório: {entry.Value}");
+                    }
+
+                    
+                    bool driverExists = driversImages.ContainsKey(selectedDriver);
+                    
+                    if (selectedDriver != null && driverExists)
+                    {
+                        
+                        pictureBoxBoard.SizeMode = PictureBoxSizeMode.Zoom;
+                        pictureBoxBoard.Image = Image.FromFile(driversImages[selectedDriver]);
+                        buttonOkBoard.Visible = true;                       
+                    }
+                    
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
             }
             checkDrivers(drivers);
             drivers.Clear();
         }
         public void consultDataBase()
         {
-            string driver;
-            string version;
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jagvluiz\Documents\dataCD.mdf;Integrated Security=True;Connect Timeout=30";
+            string filePath = @"C:\Check Drivers\config.cfg";
+            var driversVersions = ExtractDriversVersions(filePath);
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            foreach (var entry in driversVersions)
             {
-                connection.Open();
+                comboBoxBoard.Items.Add($"Driver: {entry.Key}, Versão: {entry.Value}");
+            }
 
-                // First command
-                using (SqlCommand command = new SqlCommand("SELECT * FROM Table_AR", connection))
-                using (SqlDataReader reader = command.ExecuteReader())
+
+        }
+        static Dictionary<string, string> ExtractDriversVersions(string filePath)
+        {
+            var driversVersions = new Dictionary<string, string>();
+            string[] lines = File.ReadAllLines(filePath);
+            bool isInDriversSection = false;
+
+            foreach (string line in lines)
+            {
+                if (line.Trim() == "[DRIVERS AND VERSIONS]")
                 {
-                    while (reader.Read())
-                    {
-                        driver = reader["Driver Name"].ToString();
-                        version = reader["Driver Version"].ToString();
-                        comboBoxAr.Items.Add("Driver: " + driver + ", Version: " + version);
-                    }
+                    isInDriversSection = true;
+                    continue;
                 }
 
-                // Second command
-                using (SqlCommand commandVision = new SqlCommand("SELECT * FROM TableVision", connection))
-                using (SqlDataReader readerVision = commandVision.ExecuteReader())
+                if (isInDriversSection)
                 {
-                    while (readerVision.Read())
+                    if (line.StartsWith("["))
                     {
-                        driver = readerVision["Driver Name"].ToString();
-                        version = readerVision["Driver Version"].ToString();
-                        comboBoxVision.Items.Add("Driver: " + driver + ", Version: " + version);
+                        break;
                     }
-                }
-
-                // Third command
-                using (SqlCommand commandBoard = new SqlCommand("SELECT * FROM TableBoard", connection))
-                using (SqlDataReader readerBoard = commandBoard.ExecuteReader())
-                {
-                    while (readerBoard.Read())
+                    if (line.StartsWith(";"))
                     {
-                        driver = readerBoard["Driver Name"].ToString();
-                        version = readerBoard["Driver Version"].ToString();
-                        comboBoxBoard.Items.Add("Driver: " + driver + ", Version: " + version);
+                        continue;
+                    }
+
+
+                    if (line.Contains("="))
+                    {
+                        string[] parts = line.Split('=');
+                        if (parts.Length == 2)
+                        {
+                            string driver = parts[0].Trim();
+                            string version = parts[1].Trim();
+                            driversVersions[driver] = version;
+                        }
                     }
                 }
             }
+
+            return driversVersions;
+        }
+        static Dictionary<string, string> ExtractDriversImages(string filePath)
+        {
+            var driversImages = new Dictionary<string, string>();
+            string[] lines = File.ReadAllLines(filePath);
+            bool isInDriversSection = false;
+
+            foreach (string line in lines)
+            {
+                if (line.Trim() == "[DRIVERS IMAGES DIRECTORY]")
+                {
+                    isInDriversSection = true;
+                    continue;
+                }
+
+                if (isInDriversSection)
+                {
+                    if (line.StartsWith("["))
+                    {
+                        break;
+                    }
+                    if (line.StartsWith(";")) 
+                    {
+                        continue;
+                    }
+
+                        if (line.Contains("="))
+                    {
+                        string[] parts = line.Split('=');
+                        if (parts.Length == 2)
+                        {
+                            string driver = parts[0].Trim();
+                            string directory = parts[1].Trim();
+                            driversImages[driver] = directory;
+                        }
+                    }
+                }
+            }
+
+            return driversImages;
         }
         public void checkDrivers(Dictionary<string, string> Drivers)
         {
@@ -330,10 +235,10 @@ namespace CheckDrivers
             msgDriversNok.Clear();
             try
             {
-                // Cria um objeto para buscar informações sobre os drivers
+                
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPSignedDriver");
 
-                // Executa a busca e itera sobre os resultados
+               
                 foreach (ManagementObject driver in searcher.Get())
                 {
                     if (driver["Description"] != null && driver["DriverVersion"] != null)
@@ -355,7 +260,7 @@ namespace CheckDrivers
                     }
                 }
 
-                // Exibir mensagens
+                
                 if (msgDriversOk.Count > 0)
                 {
                     MessageBox.Show(string.Join(Environment.NewLine, msgDriversOk), "Driver OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -378,23 +283,25 @@ namespace CheckDrivers
 
         }
 
-        private void buttonInsertDriverVision_Click(object sender, EventArgs e)
-        {
-            InsertVision insertVision = new InsertVision();
-            insertVision.Show();
-            this.Hide();
-        }
-
-        private void buttonInsertDriverBoard_Click(object sender, EventArgs e)
-        {
-            InsertBoard insertBoard = new InsertBoard();
-            insertBoard.Show();
-            this.Hide();
-        }
-
         private void initial_Load(object sender, EventArgs e)
         {
+            
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonOkBoard_Click(object sender, EventArgs e)
+        {
+            pictureBoxBoard.Image = null;
+            buttonOkBoard.Visible = false;
         }
     }
 }

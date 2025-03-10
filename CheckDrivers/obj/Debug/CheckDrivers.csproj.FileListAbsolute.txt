@@ -18,9 +18,13 @@ C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\CheckDrivers.exe
 C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\CheckDrivers.pdb
 C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDrivers.csprojResolveAssemblyReference.cache
 C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDrivers.initial.resources
-C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDriver.Home.resources
-C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDrivers.InsertAR.resources
-C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDrivers.InsertBoard.resources
-C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDrivers.InsertVision.resources
 C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDrivers.Properties.Resources.resources
 C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\obj\Debug\CheckDrivers.csproj.GenerateResource.Cache
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\EntityFramework.dll
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\EntityFramework.SqlServer.dll
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\System.Data.SQLite.dll
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\System.Data.SQLite.EF6.dll
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\System.Data.SQLite.Linq.dll
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\EntityFramework.xml
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\EntityFramework.SqlServer.xml
+C:\devProject\CheckDrivers\Check-Drivers\CheckDrivers\bin\Debug\System.Data.SQLite.xml

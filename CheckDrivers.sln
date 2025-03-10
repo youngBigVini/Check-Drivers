@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckDrivers", "CheckDrivers\CheckDrivers.csproj", "{38E3DB50-FC04-43D0-A439-270607BC19F0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{25A877F7-A00D-422A-8342-A0A3E8988136}"
+	ProjectSection(SolutionItems) = preProject
+		CheckDrivers\bin\Debug\circle_q7a_icon.ico = CheckDrivers\bin\Debug\circle_q7a_icon.ico
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
